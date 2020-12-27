@@ -1,20 +1,33 @@
 const fs = require('fs')
 const { join, extname, basename } = require('path');
 const { readdirSync, renameSync } = require('fs');
+const { v4: uuidv4 } = require('uuid');
+const axios = require('axios');
 
-const files = readdirSync(__dirname)
-for (const oldFile of files) {
-    const extension = extname(oldFile);
-    const name = basename(oldFile, extension);
-    console.log(extension)
-    if (extension=='.mp3') {
-       let filename = generatefileNames(name)
-        renameSync(join(__dirname, oldFile), join(__dirname, filename.name + extension));
-    
+// uuidv4()
+const audios = require('Audios');
+const { default: Axios } = require('axios');
+
+
+async function addToServer(audios){
+    for (i = 0; i < audios.length;i++){
+        const audio = { title: audios[i].title, url: audios[i].name}
+        await axios.post('http://localhost:5001/api/v1/audios',{})
     }
-    // if (name === 'old') {
-    //     renameSync(join(__dirname, oldFile), join(__dirname, 'new' + extension));
-    // }
+}
+function renameFiles(){
+    const files = readdirSync(__dirname)
+    for (const oldFile of files) {
+        const extension = extname(oldFile);
+        const name = basename(oldFile, extension);
+        console.log(extension)
+        if (extension == '.mp3') {
+            let filename = generatefileNames(name)
+            renameSync(join(__dirname, oldFile), join(__dirname, filename.name + extension));
+
+        }
+    }
+
 }
 
 
