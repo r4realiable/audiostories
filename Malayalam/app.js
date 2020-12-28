@@ -3,16 +3,22 @@ const { join, extname, basename } = require('path');
 const { readdirSync, renameSync } = require('fs');
 const { v4: uuidv4 } = require('uuid');
 const axios = require('axios');
+const filecount = 189;
 // uuidv4()
+/** only untracked files
+ * git add $(git ls-files -o --exclude-standard)
+ */
 const audios = require('./Audios');
 
-addToServer(audios);
+    addToServer(audios);
 async function addToServer(audios) {
-    for (i = 1; i < audios.length; i++) {
-        const audio = { id: uuidv4(), title: audios[i].title, url: `https://r4realiable.github.io/audiostories/Hindi/${audios[i].name}.mp3`, language: 'malayalam', artist: 'kambi maman', description: audios[i].title }
+    for (i = 0; i < audios.length; i++) {
+        let index = filecount + i - 1;
+        const audio = { id: uuidv4(), title: audios[i].title, url: `https://r4realiable.github.io/audiostories/Malayalam/${audios[i].name}.mp3`, language: 'malayalam', artist: 'kambi maman', description: audios[i].title }
         await axios.post('http://localhost:5001/api/v1/audios', audio)
     }
 }
+// renameFiles();
 function renameFiles() {
     const files = readdirSync(__dirname)
 
@@ -38,7 +44,7 @@ function generatefileNames(name){
     const title = names.join(' ');
     const audio = {name:fname,title}
     // console.log(audio) 
-   // saveFilenameToDisk(audio)
+    saveFilenameToDisk(audio)
     return audio;
 
 }
