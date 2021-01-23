@@ -4,13 +4,44 @@ const { readdirSync, renameSync } = require('fs');
 const { v4: uuidv4 } = require('uuid');
 const axios = require('axios');
 const filecount = 189;
+const { getAudioDurationInSeconds } = require('get-audio-duration');
+
 // uuidv4()
 /** only untracked files
  * git add $(git ls-files -o --exclude-standard)
  */
-const audios = require('./AudiosNew');
+const audios = require('./Audios');
 
-    addToServer(audios);
+getAuios();
+async function getAuios(){
+
+    let  audioslist = await axios.get('http://localhost:5001/api/v1/audios?limit=450&page=1&language=malayalam')
+    audioslist = audioslist.data;
+    audioslist = audioslist.result.data;
+    // console.log(audioslist.length);  
+   let len = audioslist.length;
+    for(let i=0;i<2;i++){
+
+        let currentAudio = audioslist[i];
+        if(currentAudio && !currentAudio.duration){
+                    currentAudio.duration = await getDuration(currentAudio);
+                    await axios.put(`http://localhost:5001/api/v1/audios/${currentAudio._id}`, currentAudio)
+        }
+        console.log(currentAudio)
+        
+    }
+}
+
+async function getDuration(audio){
+
+    var url=audio.url;
+    var name = url.split('Malayalam/')[1];
+  //  var fileName =  name.split('.mp3')[0]
+    var duration = await getAudioDurationInSeconds(name) 
+    return duration;
+}
+
+   // addToServer(audios);
 async function addToServer(audios) {
     for (i = 0; i < audios.length; i++) {
         let index = filecount + i - 1;

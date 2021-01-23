@@ -3,10 +3,34 @@ const { join, extname, basename } = require('path');
 const { readdirSync, renameSync } = require('fs');
 const { v4: uuidv4 } = require('uuid');
 const axios = require('axios');
-
+const { getAudioDurationInSeconds } = require('get-audio-duration');
 // uuidv4()
-const audios = require('./Audios');
+const audios = require('./AudiosNew');
 const { default: Axios } = require('axios');
+
+
+// UpdateNewAudio(audios);
+
+async function UpdateNewAudio(audios){
+
+  for(let i =0; i<audios.length;i++){
+    console.log(i)
+    let currentAudio = audios[i];
+      if(!currentAudio.duration){
+
+        let duration = await  getAudioDurationInSeconds(`${currentAudio.name}.mp3`);
+        console.log(duration);
+        currentAudio.duration = duration.toFixed(2);
+
+      }
+      saveFilenameToDisk(currentAudio)
+
+  }
+
+}
+
+
+
 
 addToServer(audios);
 async function addToServer(audios){
@@ -44,8 +68,9 @@ function generatefileNames(name){
 }
 
 
+
 function saveFilenameToDisk(audio) {
-    fs.appendFile('Audios.js', `{"name":"${audio.name}","title":"${audio.title}"},\n`, function (err) {
+  fs.appendFile('AudiosNew.js', `{"name":"${audio.name}","title":"${audio.title}","duration":"${audio.duration}"},\n`, function (err) {
         if (err) throw err;
         console.log('Saved!--> Tgas to file');
     });

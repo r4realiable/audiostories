@@ -20,7 +20,26 @@ const { getAudioDurationInSeconds } = require('get-audio-duration');
 /** only untracked files
  * git add $(git ls-files -o --exclude-standard)
  */
-//const audios = require('./Audios');
+const audios = require('./Audios');
+UpdateNewAudio(audios);
+
+async function UpdateNewAudio(audios){
+
+  for(let i =0; i<audios.length;i++){
+    console.log(i)
+    let currentAudio = audios[i];
+      if(!currentAudio.duration){
+
+        let duration = await  getAudioDurationInSeconds(`${currentAudio.name}.mp3`);
+        console.log(duration);
+        currentAudio.duration = duration.toFixed(2);
+
+      }
+      saveFilenameToDisk(currentAudio)
+
+  }
+
+}
 
     //addToServer(audios);
 async function addToServer(audios) {
@@ -30,7 +49,7 @@ async function addToServer(audios) {
         await axios.post('http://localhost:5001/api/v1/audios', audio)
     }
 }
-renameFiles();
+//renameFiles();
 async function renameFiles() {
     const files = readdirSync(__dirname)
 
@@ -77,7 +96,7 @@ let audioDuration = duration.toFixed(2);
 
 
 function saveFilenameToDisk(audio) {
-  fs.appendFile('Audios.js', `{"name":"${audio.name}","title":"${audio.title}","duration":"${audio.duration}"},\n`, function (err) {
+  fs.appendFile('AudiosNew.js', `{"name":"${audio.name}","title":"${audio.title}","duration":"${audio.duration}"},\n`, function (err) {
         if (err) throw err;
         console.log('Saved!--> Tgas to file');
     });
