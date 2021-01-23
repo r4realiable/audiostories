@@ -1,0 +1,23 @@
+{
+  "name": "audiostories",
+  "version": "1.0.0",
+  "description": "",
+  "main": "Englishapp.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/r4realiable/audiostories.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/r4realiable/audiostories/issues"
+  },
+  "homepage": "https://github.com/r4realiable/audiostories#readme",
+  "dependencies": {
+    "get-audio-duration": "^2.0.3",
+    "uuid": "^8.3.2"
+  }
+}
