@@ -723,4 +723,6 @@ const audios=[
 {"name":"10722","title":"zenmackie_teachingcarol09 ","duration":"1432.19"},
 {"name":"10723","title":"zenmackie_teachingcarol10 ","duration":"929.59"},
 {"name":"10724","title":"zenmackie_thelibrarycrawl ","duration":"850.07"},
-{"name":"10725","title":"zootsounds_einekleine ","duration":"235.92"},
+{"name":"10725","title":"zootsounds_einekleine ","duration":"235.92"}];
+
+module.exports= audios;
