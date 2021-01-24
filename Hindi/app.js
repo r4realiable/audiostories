@@ -35,7 +35,7 @@ async function UpdateNewAudio(audios){
 addToServer(audios);
 async function addToServer(audios){
     for (i = 1; i < audios.length;i++){
-        const audio = { id: uuidv4(),title: audios[i].title, url: `https://r4realiable.github.io/audiostories/Hindi/${audios[i].name}.mp3`, language: 'hindi', artist: 'mama gun', description: audios[i].title}
+        const audio = { id: uuidv4(),title: audios[i].title, url: `https://r4realiable.github.io/audiostories/Hindi/${audios[i].name}.mp3`, language: 'hindi', artist: 'mama gun', description: audios[i].title, duration: audios[i].duration}
         await axios.post('http://localhost:5001/api/v1/audios', audio)
     }
 }
